@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
   const [lists, setLists] = useState([]);
 
-  axios({
-    method: 'get',
-    url: 'https://shrouded-journey-60588.herokuapp.com/'
-  })
-    .then((response) => {
-      setLists(()=>{
-        return [...response.data];
+  useEffect(()=>{
+    axios({
+      method: 'get',
+      url: 'https://shrouded-journey-60588.herokuapp.com/'
+    })
+      .then((response) => {
+        setLists(()=>{
+          return [...response.data];
+        });
       });
-    });
+  });
+
+  
 
   return (
     <div className="App">
