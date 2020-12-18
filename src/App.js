@@ -222,7 +222,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={{paddingLeft: '1rem', zoom: '110%'}}>
       <h1>TodoApp</h1>
 
       <ul>
