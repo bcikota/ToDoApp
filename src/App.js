@@ -101,13 +101,15 @@ function App() {
 
   useEffect(() => {
     //read list items
-    axios.get('lists/' + renderUrl)
+    if(renderUrl !== ''){
+      axios.get('lists/' + renderUrl + '/items')
       .then((res) => {
         setClickedList(res.data.name);
         if (res.data.items) {
           setListItems([...res.data.items]);
         }
       });
+    }
   }, [renderUrl]);
 
 
@@ -148,9 +150,10 @@ function App() {
 
   function handleItemSubmit(e) {
     e.preventDefault();
+    //add new item
 
     if (postItemUrl && !editItemActive) {
-      axios.post('lists/' + postItemUrl,
+      axios.post('lists/' + postItemUrl + '/items',
         {
           name: itemName
         })
@@ -183,7 +186,7 @@ function App() {
 
   function handleEditItem(e) {
     handleItemChange(e);
-    setEditItemUrl(escape(clickedList+"/"+e.target.value));
+    setEditItemUrl(escape(clickedList+"/items/"+e.target.value));
     setEditItemActive(true);
     setTemporaryListName(clickedList);
   }
@@ -191,7 +194,7 @@ function App() {
 
 
   function handleDeleteItem(e) {
-    setDeleteItemUrl(escape(clickedList+"/"+e.target.value));
+    setDeleteItemUrl(escape(clickedList+"/items/"+e.target.value));
   }
 
   useEffect(() => {
@@ -206,6 +209,17 @@ function App() {
         });
     }
   }, [deleteItemUrl]);
+
+  function handleDeleteAllItems(){
+
+    axios.patch('lists/' + escape(clickedList) + '/items')
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then((response) => {
+        setListItems([...response.data.items]);
+      });
+  }
 
   return (
     <div className="App">
@@ -240,11 +254,13 @@ function App() {
             </li>
 
           })}
-          <form onSubmit={handleItemSubmit}>
+          
+        </ul>
+        <form onSubmit={handleItemSubmit} style={{ marginBottom: '1rem' }}>
             <input type="text" onChange={handleItemChange} value={itemName} placeholder="add new item" />
             <button type="submit">+</button>
           </form>
-        </ul>
+          <button onClick={handleDeleteAllItems}> delete all items</button>
       </div>
     </div>
   );
