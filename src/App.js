@@ -86,9 +86,14 @@ function App() {
         setLists(() => {
           return [...response.data];
         });
-        setClickedList('');
-        setListItems([]);
+        // setClickedList('');
+        // setListItems([]);
         setIsListClicked(false);
+        if(clickedList === 'default list'){
+          setClickedList('default list');
+          let firstItem = 'Welcome to your todo list!';
+          listItems.push(firstItem);
+        }
       });
   }
 
