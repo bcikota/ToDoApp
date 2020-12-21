@@ -86,14 +86,13 @@ function App() {
         setLists(() => {
           return [...response.data];
         });
-        // setClickedList('');
-        // setListItems([]);
+
         setIsListClicked(false);
         if(clickedList === 'default list'){
-          setClickedList('default list');
-          let firstItem = 'Welcome to your todo list!';
-          listItems.push(firstItem);
+          setListItems([...response.data[0].items]);
         }
+        setEditListActive(false);
+        setlistName('');
       });
   }
 
@@ -142,6 +141,8 @@ function App() {
             return [...response.data];
           });
           setIsListClicked(false);
+          setlistName('');
+          setEditListActive(false);
         });
     }
   }, [deleteUrl]);
@@ -157,7 +158,7 @@ function App() {
     e.preventDefault();
     //add new item
 
-    if (postItemUrl && !editItemActive) {
+    if (postItemUrl && !editItemActive ) {
       axios.post('lists/' + postItemUrl + '/items',
         {
           name: itemName
@@ -211,6 +212,8 @@ function App() {
         })
         .then((response) => {
           setListItems([...response.data.items]);
+          setItemName('');
+          setEditItemActive(false);
         });
     }
   }, [deleteItemUrl]);
@@ -223,6 +226,8 @@ function App() {
       })
       .then((response) => {
         setListItems([...response.data.items]);
+        setEditItemActive(false);
+        setItemName('');
       });
   }
 
