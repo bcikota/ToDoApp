@@ -3,10 +3,10 @@ import axios from 'axios';
 
 function App() {
 
-  const [lists, setLists] = useState([]); //read lists
-  const [listName, setListName] = useState(''); //create & edit list
+  const [lists, setLists] = useState([]);
+  const [listName, setListName] = useState('');
   const [clickedList, setClickedList] = useState('');
-  const [listItems, setListItems] = useState([]); //read list items
+  const [listItems, setListItems] = useState([]); 
   const [editListUrl, setEditListUrl] = useState('');
   const [itemName, setItemName] = useState('');
   const [postItemUrl, setPostItemUrl] = useState('');
@@ -83,6 +83,8 @@ function App() {
         }
         setListName('');
         setEditListUrl('');
+        setEditItemUrl('');
+        setItemName('');
       });
   }
 
