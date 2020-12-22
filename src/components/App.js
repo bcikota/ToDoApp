@@ -15,7 +15,6 @@ function App() {
   const [itemName, setItemName] = useState('');
   const [postItemUrl, setPostItemUrl] = useState('');
   const [editItemUrl, setEditItemUrl] = useState('');
-  const [deleteItemUrl, setDeleteItemUrl] = useState('');
   const [editItemActive, setEditItemActive] = useState(false);
   const [temporaryListName, setTemporaryListName] = useState('');
 
@@ -181,13 +180,8 @@ function App() {
     setTemporaryListName(clickedList);
   }
 
-
-
   function handleDeleteItem(e) {
-    setDeleteItemUrl(escape(clickedList+"/items/"+e.target.value));
-  }
-
-  useEffect(() => {
+    let deleteItemUrl = escape(clickedList+"/items/"+e.target.value);
     //delete specific Item
     if (deleteItemUrl !== '') {
       axios.delete('lists/' + deleteItemUrl)
@@ -200,7 +194,7 @@ function App() {
           setEditItemActive(false);
         });
     }
-  }, [deleteItemUrl]);
+  }
 
   function handleDeleteAllItems(){
 
