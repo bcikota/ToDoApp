@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CRUD from './CRUD';
 
 function App() {
+  CRUD();
 
   const [lists, setLists] = useState([]); //read lists
   const [listName, setlistName] = useState(''); //create & edit list
-  const [renderUrl, setRenderUrl] = useState('');
   const [clickedList, setClickedList] = useState('');
   const [listItems, setListItems] = useState([]); //read list items
   const [editUrl, setEditUrl] = useState('');
@@ -99,14 +100,10 @@ function App() {
 
   function handleListClick(e) {
     let currListName = escape(e.target.textContent);
-    setRenderUrl(currListName);
+    
     setIsListClicked(true);
-  }
-
-  useEffect(() => {
-    //read list items
-    if(renderUrl !== ''){
-      axios.get('lists/' + renderUrl + '/items')
+    if(currListName !== ''){
+      axios.get('lists/' + currListName + '/items')
       .then((res) => {
         setClickedList(res.data.name);
         if (res.data.items) {
@@ -114,7 +111,12 @@ function App() {
         }
       });
     }
-  }, [renderUrl]);
+  }
+
+  // useEffect(() => {
+  //   //read list items
+    
+  // }, [renderUrl]);
 
 
   function handleEditList(e) {
