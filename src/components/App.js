@@ -6,12 +6,11 @@ function App() {
   CRUD();
 
   const [lists, setLists] = useState([]); //read lists
-  const [listName, setlistName] = useState(''); //create & edit list
+  const [listName, setListName] = useState(''); //create & edit list
   const [clickedList, setClickedList] = useState('');
   const [listItems, setListItems] = useState([]); //read list items
   const [editUrl, setEditUrl] = useState('');
   const [editListActive, setEditListActive] = useState(false); //if editing input is active
-  const [deleteUrl, setDeleteUrl] = useState('');
   const [isListClicked, setIsListClicked] = useState(false);
   const [itemName, setItemName] = useState('');
   const [postItemUrl, setPostItemUrl] = useState('');
@@ -34,12 +33,12 @@ function App() {
   }, []);
 
   function handleChange(e) {
-    setlistName(e.target.value);
+    setListName(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    //create & edit list
+    //create list 
     if (!editListActive && listName) {
       axios.post(
         '/lists',
@@ -51,11 +50,11 @@ function App() {
           setLists(() => {
             return [...response.data];
           });
-          setlistName('');
+          setListName('');
           setIsListClicked(false);
         });
     } else if(editUrl){
-
+      //edit list
       axios.patch('lists/' + editUrl,
         {
           name: listName
@@ -68,13 +67,10 @@ function App() {
             return [...response.data];
           });
           setEditListActive(false);
-          setlistName('');
+          setListName('');
           setIsListClicked(false);
         });
-
     }
-
-
   }
 
   function handleDeleteAllLists() {
@@ -93,7 +89,7 @@ function App() {
           setListItems([...response.data[0].items]);
         }
         setEditListActive(false);
-        setlistName('');
+        setListName('');
       });
   }
 
@@ -113,26 +109,14 @@ function App() {
     }
   }
 
-  // useEffect(() => {
-  //   //read list items
-    
-  // }, [renderUrl]);
-
-
   function handleEditList(e) {
-    setEditListActive((prevValue) => !prevValue);
+    setEditListActive(true);
     handleChange(e);
     setEditUrl(escape(e.target.value));
   }
 
-
-
   function handleDeleteList(e) {
-    setDeleteUrl(escape(e.target.value));
-  }
-
-  useEffect(() => {
-    //delete specific list
+    let deleteUrl = escape(e.target.value);
     if (deleteUrl !== '') {
       axios.delete('lists/' + deleteUrl)
         .catch(function (error) {
@@ -143,13 +127,11 @@ function App() {
             return [...response.data];
           });
           setIsListClicked(false);
-          setlistName('');
+          setListName('');
           setEditListActive(false);
         });
     }
-  }, [deleteUrl]);
-
-
+  }
 
   function handleItemChange(e) {
     setItemName(e.target.value);
