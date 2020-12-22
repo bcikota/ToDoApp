@@ -8,7 +8,6 @@ function App() {
   const [clickedList, setClickedList] = useState('');
   const [listItems, setListItems] = useState([]); //read list items
   const [editListUrl, setEditListUrl] = useState('');
-  const [isListClicked, setIsListClicked] = useState(false);
   const [itemName, setItemName] = useState('');
   const [postItemUrl, setPostItemUrl] = useState('');
   const [editItemUrl, setEditItemUrl] = useState('');
@@ -45,7 +44,7 @@ function App() {
             return [...response.data];
           });
           setListName('');
-          setIsListClicked(false);
+          setClickedList('');
         });
     } else {
       //edit list
@@ -62,7 +61,7 @@ function App() {
           });
           setEditListUrl('');
           setListName('');
-          setIsListClicked(false);
+          setClickedList('');
         });
     }
   }
@@ -78,7 +77,7 @@ function App() {
           return [...response.data];
         });
 
-        setIsListClicked(false);
+        setClickedList('');
         if(clickedList === 'default list'){
           setListItems([...response.data[0].items]);
         }
@@ -91,7 +90,7 @@ function App() {
   function handleListClick(e) {
     let currListName = escape(e.target.textContent);
     
-    setIsListClicked(true);
+    
     if(currListName !== ''){
       axios.get('lists/' + currListName + '/items')
       .then((res) => {
@@ -119,7 +118,7 @@ function App() {
           setLists(() => {
             return [...response.data];
           });
-          setIsListClicked(false);
+          setClickedList('');
           setListName('');
           setEditListUrl('');
         });
@@ -221,7 +220,7 @@ function App() {
         <button type="submit">ok</button>
       </form>
       <button onClick={handleDeleteAllLists}> delete all lists</button>
-      <div style={isListClicked === false ? { display: 'none' } : { display: 'block' }}>
+      <div style={clickedList === '' ? { display: 'none' } : { display: 'block' }}>
         <h2>{clickedList}</h2>
         <ul>
           {listItems.map((item, index) => {
