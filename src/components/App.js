@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CRUD from './CRUD';
 
 function App() {
-  CRUD();
 
   const [lists, setLists] = useState([]); //read lists
   const [listName, setListName] = useState(''); //create & edit list
   const [clickedList, setClickedList] = useState('');
   const [listItems, setListItems] = useState([]); //read list items
-  const [editUrl, setEditUrl] = useState('');
-  const [editListActive, setEditListActive] = useState(false); //if editing input is active
+  const [editListUrl, setEditListUrl] = useState('');
   const [isListClicked, setIsListClicked] = useState(false);
   const [itemName, setItemName] = useState('');
   const [postItemUrl, setPostItemUrl] = useState('');
   const [editItemUrl, setEditItemUrl] = useState('');
-  const [editItemActive, setEditItemActive] = useState(false);
-  const [temporaryListName, setTemporaryListName] = useState('');
 
 
   axios.defaults.baseURL = 'https://shrouded-journey-60588.herokuapp.com/';
@@ -38,7 +33,7 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     //create list 
-    if (!editListActive && listName) {
+    if (editListUrl === '' && listName) {
       axios.post(
         '/lists',
         {
@@ -52,9 +47,9 @@ function App() {
           setListName('');
           setIsListClicked(false);
         });
-    } else if(editUrl){
+    } else {
       //edit list
-      axios.patch('lists/' + editUrl,
+      axios.patch('lists/' + editListUrl,
         {
           name: listName
         })
@@ -65,7 +60,7 @@ function App() {
           setLists(() => {
             return [...response.data];
           });
-          setEditListActive(false);
+          setEditListUrl('');
           setListName('');
           setIsListClicked(false);
         });
@@ -87,8 +82,8 @@ function App() {
         if(clickedList === 'default list'){
           setListItems([...response.data[0].items]);
         }
-        setEditListActive(false);
         setListName('');
+        setEditListUrl('');
       });
   }
 
@@ -109,9 +104,8 @@ function App() {
   }
 
   function handleEditList(e) {
-    setEditListActive(true);
     handleChange(e);
-    setEditUrl(escape(e.target.value));
+    setEditListUrl(escape(e.target.value));
   }
 
   function handleDeleteList(e) {
@@ -127,7 +121,7 @@ function App() {
           });
           setIsListClicked(false);
           setListName('');
-          setEditListActive(false);
+          setEditListUrl('');
         });
     }
   }
@@ -141,7 +135,7 @@ function App() {
     e.preventDefault();
     //add new item
 
-    if (postItemUrl && !editItemActive ) {
+    if (editItemUrl === '' ) {
       axios.post('lists/' + postItemUrl + '/items',
         {
           name: itemName
@@ -154,7 +148,7 @@ function App() {
           setItemName('');
           setPostItemUrl('');
         });
-    } else if(editItemUrl) {
+    } else {
    
       axios.patch('lists/' + editItemUrl,
       {
@@ -165,9 +159,7 @@ function App() {
       })
       .then((response) => {
         setListItems([...response.data[0].items]);
-        setClickedList(temporaryListName);
         setEditItemUrl('');
-        setEditItemActive(false);
         setItemName('');
       });
     }
@@ -176,8 +168,6 @@ function App() {
   function handleEditItem(e) {
     handleItemChange(e);
     setEditItemUrl(escape(clickedList+"/items/"+e.target.value));
-    setEditItemActive(true);
-    setTemporaryListName(clickedList);
   }
 
   function handleDeleteItem(e) {
@@ -191,7 +181,7 @@ function App() {
         .then((response) => {
           setListItems([...response.data.items]);
           setItemName('');
-          setEditItemActive(false);
+          setEditItemUrl('');
         });
     }
   }
@@ -204,7 +194,7 @@ function App() {
       })
       .then((response) => {
         setListItems([...response.data.items]);
-        setEditItemActive(false);
+        setEditItemUrl('');
         setItemName('');
       });
   }
