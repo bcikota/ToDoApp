@@ -7,7 +7,7 @@ function ListArea(props) {
   
 
   function handleItemChange(e) {
-    props.setItemName(e.target.value);
+    props.setItemTitle(e.target.value);
     setPostItemUrl(escape(props.clickedList));
   }
 
@@ -18,21 +18,21 @@ function ListArea(props) {
     if (props.editItemUrl === '') {
       axios.post('lists/' + postItemUrl + '/items',
         {
-          name: props.itemName
+          title: props.itemTitle
         })
         .catch(function (error) {
           console.log(error);
         })
         .then((response) => {
           props.setListItems([...response.data.items]);
-          props.setItemName('');
+          props.setItemTitle('');
           setPostItemUrl('');
         });
     } else {
 
       axios.patch('lists/' + props.editItemUrl,
         {
-          name: props.itemName
+          title: props.itemTitle
         })
         .catch(function (error) {
           console.log(error);
@@ -40,7 +40,7 @@ function ListArea(props) {
         .then((response) => {
           props.setListItems([...response.data[0].items]);
           props.setEditItemUrl('');
-          props.setItemName('');
+          props.setItemTitle('');
         });
     }
   }
@@ -60,7 +60,7 @@ function ListArea(props) {
         })
         .then((response) => {
           props.setListItems([...response.data.items]);
-          props.setItemName('');
+          props.setItemTitle('');
           props.setEditItemUrl('');
         });
     }
@@ -75,7 +75,7 @@ function ListArea(props) {
       .then((response) => {
         props.setListItems([...response.data.items]);
         props.setEditItemUrl('');
-        props.setItemName('');
+        props.setItemTitle('');
       });
   }
     return <div style={props.clickedList === '' ? { display: 'none' } : { display: 'block' }}>
@@ -83,16 +83,16 @@ function ListArea(props) {
       <ul>
         {props.listItems.map((item, index) => {
 
-          return <li key={index} style={{ marginBottom: '1rem' }}> <span style={{ marginRight: '1rem' }}>{item.name}</span>
-            <button value={item.name} onClick={handleEditItem}>edit</button>
-            <button value={item.name} onClick={handleDeleteItem} >delete</button>
+          return <li key={index} style={{ marginBottom: '1rem' }}> <span style={{ marginRight: '1rem' }}>{item.title}</span>
+            <button value={item.title} onClick={handleEditItem}>edit</button>
+            <button value={item.title} onClick={handleDeleteItem} >delete</button>
           </li>
 
         })}
 
       </ul>
       <form onSubmit={handleItemSubmit} style={{ marginBottom: '1rem' }}>
-        <input type="text" onChange={handleItemChange} value={props.itemName} placeholder="add new item" />
+        <input type="text" onChange={handleItemChange} value={props.itemTitle} placeholder="add new item" />
         <button type="submit">+</button>
       </form>
       <button onClick={handleDeleteAllItems}> delete all items</button>

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function AllListsArea(props) {
   const [lists, setLists] = useState([]);
-  const [listName, setListName] = useState('');
+  const [listTitle, setListTitle] = useState('');
   
   const [editListUrl, setEditListUrl] = useState('');
   axios.defaults.baseURL = 'https://shrouded-journey-60588.herokuapp.com/';
@@ -19,31 +19,31 @@ function AllListsArea(props) {
   }, []);
 
   function handleChange(e) {
-    setListName(e.target.value);
+    setListTitle(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     //create list 
-    if (editListUrl === '' && listName) {
+    if (editListUrl === '' && listTitle) {
       axios.post(
         '/lists',
         {
-          name: listName
+          title: listTitle
         }
       )
         .then((response) => {
           setLists(() => {
             return [...response.data];
           });
-          setListName('');
+          setListTitle('');
           props.setClickedList('');
         });
     } else {
       //edit list
       axios.patch('lists/' + editListUrl,
         {
-          name: listName
+          title: listTitle
         })
         .catch(function (error) {
           console.log(error);
@@ -53,7 +53,7 @@ function AllListsArea(props) {
             return [...response.data];
           });
           setEditListUrl('');
-          setListName('');
+          setListTitle('');
           props.setClickedList('');
         });
     }
@@ -74,10 +74,10 @@ function AllListsArea(props) {
         if (props.clickedList === 'default list') {
           props.setListItems([...response.data[0].items]);
         }
-        setListName('');
+        setListTitle('');
         setEditListUrl('');
         props.setEditItemUrl('');
-        props.setItemName('');
+        props.setItemTitle('');
       });
       
   }
@@ -99,7 +99,7 @@ function AllListsArea(props) {
             return [...response.data];
           });
           props.setClickedList('');
-          setListName('');
+          setListTitle('');
           setEditListUrl('');
         });
     }
@@ -109,18 +109,18 @@ function AllListsArea(props) {
       <ul>
         {lists.map((list, index) => {
           return <li key={index} style={{ paddingBottom: '1rem' }}>
-            <button onClick={props.handleListClick} style={{ marginRight: '1rem', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer' }}>{list.name}</button>
+            <button onClick={props.handleListClick} style={{ marginRight: '1rem', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer' }}>{list.title}</button>
 
-            {list.name !== 'default list' &&
-              <button value={list.name} onClick={handleEditList}>edit</button>}
-            {list.name !== 'default list' &&
-              <button value={list.name} onClick={handleDeleteList} >delete</button>}
+            {list.title !== 'default list' &&
+              <button value={list.title} onClick={handleEditList}>edit</button>}
+            {list.title !== 'default list' &&
+              <button value={list.title} onClick={handleDeleteList} >delete</button>}
 
           </li>
         })}
       </ul>
       <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
-        <input type="text" name="name" onChange={handleChange} value={listName} placeholder="add new list" />
+        <input type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
         <button type="submit">ok</button>
       </form>
       <button onClick={handleDeleteAllLists}> delete all lists</button>

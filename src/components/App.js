@@ -5,17 +5,17 @@ import ListArea from './ListArea';
 
 function App() {
   const [editItemUrl, setEditItemUrl] = useState('');
-  const [itemName, setItemName] = useState('');
+  const [itemTitle, setItemTitle] = useState('');
   const [clickedList, setClickedList] = useState('');
   const [listItems, setListItems] = useState([]);
 
   function handleListClick(e) {
-    let currListName = escape(e.target.textContent);
+    let currListTitle = escape(e.target.textContent);
 
-    if (currListName !== '') {
-      axios.get('lists/' + currListName + '/items')
+    if (currListTitle !== '') {
+      axios.get('lists/' + currListTitle + '/items')
         .then((res) => {
-          setClickedList(res.data.name);
+          setClickedList(res.data.title);
           if (res.data.items) {
             setListItems([...res.data.items]);
           }
@@ -34,15 +34,15 @@ function App() {
         setClickedList={setClickedList}
         setListItems={setListItems}
         setEditItemUrl={setEditItemUrl}
-        setItemName={setItemName}
+        setItemTitle={setItemTitle}
         handleListClick={handleListClick}
       />
       <ListArea
         clickedList={clickedList}
         listItems={listItems}
         setListItems={setListItems}
-        itemName={itemName}
-        setItemName={setItemName}
+        itemTitle={itemTitle}
+        setItemTitle={setItemTitle}
         editItemUrl={editItemUrl}
         setEditItemUrl={setEditItemUrl}
       />
