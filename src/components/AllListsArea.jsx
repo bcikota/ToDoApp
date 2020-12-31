@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Accordion from 'react-bootstrap/Accordion';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
+
 
 function AllListsArea(props) {
   const [lists, setLists] = useState([]);
   const [listTitle, setListTitle] = useState('');
-  
+
   const [editListUrl, setEditListUrl] = useState('');
   axios.defaults.baseURL = 'https://shrouded-journey-60588.herokuapp.com/';
 
@@ -25,7 +31,7 @@ function AllListsArea(props) {
   function handleSubmit(e) {
     e.preventDefault();
     //create list 
-    if (editListUrl === '' && listTitle) {
+    if (editListUrl === '' && listTitle !== '') {
       axios.post(
         '/lists',
         {
@@ -39,7 +45,7 @@ function AllListsArea(props) {
           setListTitle('');
           props.setClickedList('');
         });
-    } else {
+    } else if (editListUrl !== '') {
       //edit list
       axios.patch('lists/' + editListUrl,
         {
@@ -79,7 +85,7 @@ function AllListsArea(props) {
         props.setEditItemUrl('');
         props.setItemTitle('');
       });
-      
+
   }
 
   function handleEditList(e) {
@@ -105,26 +111,60 @@ function AllListsArea(props) {
     }
   }
 
-    return <div>
-      <ul>
-        {lists.map((list, index) => {
-          return <li key={index} style={{ paddingBottom: '1rem' }}>
-            <button onClick={props.handleListClick} style={{ marginRight: '1rem', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer' }}>{list.title}</button>
+  return <div className="mb-4">
+    <Accordion defaultActiveKey="0">
+    <h2 className="d-inline-block mb-lg-4">All Lists</h2>
+      <Accordion.Toggle as={Button} variant="link" eventKey="0" className="d-lg-none">
+        show/hide
+      </Accordion.Toggle>
+      <Accordion.Collapse className="mb-3" eventKey="0">
+        <ListGroup>
 
-            {list.title !== 'default list' &&
-              <button value={list.title} onClick={handleEditList}>edit</button>}
-            {list.title !== 'default list' &&
-              <button value={list.title} onClick={handleDeleteList} >delete</button>}
+          {lists.map((list, index) => {
+            return <ListGroup.Item key={index}>
+              <div>
+                <Row>
+                  <Col >
+                    <button onClick={props.handleListClick} className="btn btn-outline-none" style={{textDecoration:'underline', fontSize:'1.1rem'}}>{list.title}</button>
+                  </Col>
+                  <Col>
+                    {list.title !== 'default list' &&
+                      <button className="w-100 btn btn-outline-primary" value={list.title} onClick={handleEditList}>edit</button>}
+                  </Col>
+                  <Col>
+                    {list.title !== 'default list' &&
+                      <button className="w-100 btn btn-outline-primary" value={list.title} onClick={handleDeleteList} >delete</button>}
+                  </Col>
+                </Row>
+              </div></ListGroup.Item>
+          })}
+        </ListGroup>
+      </Accordion.Collapse>
+      <Accordion.Collapse className="mb-3" eventKey="0">
+        <form onSubmit={handleSubmit}>
+          <Row>
+            <Col xs={9}>
+            <input style={{border:'1.5px solid lightGray', fontSize:'1.1rem'}} className="w-100 mb-2 p-2" type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
+            </Col>
+            <Col>
+            <button className=" btn btn-primary p-2 pl-3 pr-3" type="submit">ok</button>
+            </Col>
+          </Row>
+          
+          
+        </form>
+      </Accordion.Collapse>
+      <Accordion.Collapse eventKey="0">
+        <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
+      </Accordion.Collapse>
+    </Accordion>
 
-          </li>
-        })}
-      </ul>
-      <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
-        <input type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
-        <button type="submit">ok</button>
-      </form>
-      <button onClick={handleDeleteAllLists}> delete all lists</button>
-    </div>
-  }
 
-  export default AllListsArea;
+
+
+
+
+  </div>
+}
+
+export default AllListsArea;

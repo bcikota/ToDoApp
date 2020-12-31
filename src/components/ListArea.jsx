@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 
 function ListArea(props) {
-  
+
   const [postItemUrl, setPostItemUrl] = useState('');
-  
+
 
   function handleItemChange(e) {
     props.setItemTitle(e.target.value);
@@ -15,7 +18,7 @@ function ListArea(props) {
     e.preventDefault();
     //add new item
 
-    if (props.editItemUrl === '') {
+    if (props.editItemUrl === '' && postItemUrl !== '') {
       axios.post('lists/' + postItemUrl + '/items',
         {
           title: props.itemTitle
@@ -28,7 +31,7 @@ function ListArea(props) {
           props.setItemTitle('');
           setPostItemUrl('');
         });
-    } else {
+    } else if (props.editItemUrl !== '') {
 
       axios.patch('lists/' + props.editItemUrl,
         {
@@ -78,25 +81,45 @@ function ListArea(props) {
         props.setItemTitle('');
       });
   }
-    return <div style={props.clickedList === '' ? { display: 'none' } : { display: 'block' }}>
-      <h2>{props.clickedList}</h2>
-      <ul>
-        {props.listItems.map((item, index) => {
+  return <div style={props.clickedList === '' ? { display: 'none' } : { display: 'block' }}>
+    <h2 className='mb-lg-4'>{props.clickedList}</h2>
+    <ul className="list-group">
 
-          return <li key={index} style={{ marginBottom: '1rem' }}> <span style={{ marginRight: '1rem' }}>{item.title}</span>
-            <button value={item.title} onClick={handleEditItem}>edit</button>
-            <button value={item.title} onClick={handleDeleteItem} >delete</button>
-          </li>
+      <li className="list-group-item"
+        style={props.listItems.length !== 0 ? { display: 'none' } : { display: 'block', height: '3rem' }}></li>
 
-        })}
+      {props.listItems.map((item, index) => {
 
-      </ul>
-      <form onSubmit={handleItemSubmit} style={{ marginBottom: '1rem' }}>
-        <input type="text" onChange={handleItemChange} value={props.itemTitle} placeholder="add new item" />
-        <button type="submit">+</button>
-      </form>
-      <button onClick={handleDeleteAllItems}> delete all items</button>
-    </div>
-  }
 
-  export default ListArea;
+        return <li className={index === 0 ? "border-top list-group-item" : "list-group-item"} key={index}>
+          <Row>
+            <Col >
+              <span style={{ marginRight: '1rem', fontSize: '1.1rem' }}>{item.title}</span>
+            </Col>
+            <Col>
+              <button className="w-100 btn btn-outline-primary" value={item.title} onClick={handleEditItem}>edit</button>
+            </Col>
+            <Col>
+              <button className="w-100 btn btn-outline-primary" value={item.title} onClick={handleDeleteItem} >delete</button>
+            </Col>
+          </Row>
+        </li>
+      })}
+    </ul>
+    <form className="mt-2 mb-3" onSubmit={handleItemSubmit}>
+      <Row>
+        <Col xs={9}>
+          <input style={{ border: '1.5px solid lightGray', fontSize: '1.1rem' }} type="text" className="w-100 p-2" onChange={handleItemChange} value={props.itemTitle} placeholder="add new item" />
+        </Col>
+        <Col>
+          <button type="submit">+</button>
+        </Col>
+      </Row>
+
+
+    </form>
+    <button onClick={handleDeleteAllItems}> delete all items</button>
+  </div>
+}
+
+export default ListArea;
