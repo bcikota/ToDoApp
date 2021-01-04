@@ -11,7 +11,7 @@ function ListArea(props) {
 
   function handleItemChange(e) {
     props.setItemTitle(e.target.value);
-    setPostItemUrl(escape(props.clickedList));
+    setPostItemUrl(escape(props.clickedListID));
   }
 
   function handleItemSubmit(e) {
@@ -50,11 +50,11 @@ function ListArea(props) {
 
   function handleEditItem(e) {
     handleItemChange(e);
-    props.setEditItemUrl(escape(props.clickedList + "/items/" + e.target.value));
+    props.setEditItemUrl(escape(props.clickedListID + "/items/" + e.target.name));
   }
 
   function handleDeleteItem(e) {
-    let deleteItemUrl = escape(props.clickedList + "/items/" + e.target.value);
+    let deleteItemUrl = escape(props.clickedListID + "/items/" + e.target.name);
     //delete specific Item
     if (deleteItemUrl !== '') {
       axios.delete('lists/' + deleteItemUrl)
@@ -71,7 +71,7 @@ function ListArea(props) {
 
   function handleDeleteAllItems() {
 
-    axios.patch('lists/' + escape(props.clickedList) + '/items')
+    axios.patch('lists/' + escape(props.clickedListID) + '/items')
       .catch(function (error) {
         console.log(error);
       })
@@ -81,8 +81,8 @@ function ListArea(props) {
         props.setItemTitle('');
       });
   }
-  return <div style={props.clickedList === '' ? { display: 'none' } : { display: 'block' }}>
-    <h2 className='mb-lg-4'>{props.clickedList}</h2>
+  return <div style={props.clickedListTitle === '' ? { display: 'none' } : { display: 'block' }}>
+    <h2 className='mb-lg-4'>{props.clickedListTitle}</h2>
     <ul className="list-group">
 
       <li className="list-group-item"
@@ -97,10 +97,10 @@ function ListArea(props) {
               <span style={{ marginRight: '1rem', fontSize: '1.1rem' }}>{item.title}</span>
             </Col>
             <Col>
-              <button className="w-100 btn btn-outline-primary" value={item.title} onClick={handleEditItem}>edit</button>
+              <button className="w-100 btn btn-outline-primary" name={item._id} value={item.title} onClick={handleEditItem}>edit</button>
             </Col>
             <Col>
-              <button className="w-100 btn btn-outline-primary" value={item.title} onClick={handleDeleteItem} >delete</button>
+              <button className="w-100 btn btn-outline-primary" name={item._id} value={item.title} onClick={handleDeleteItem} >delete</button>
             </Col>
           </Row>
         </li>

@@ -10,16 +10,18 @@ import Row from "react-bootstrap/Row";
 function App() {
   const [editItemUrl, setEditItemUrl] = useState('');
   const [itemTitle, setItemTitle] = useState('');
-  const [clickedList, setClickedList] = useState('');
+  const [clickedListTitle, setClickedListTitle] = useState('');
+  const [clickedListID, setClickedListID] = useState('');
   const [listItems, setListItems] = useState([]);
 
   function handleListClick(e) {
-    let currListTitle = escape(e.target.textContent);
+    let currListID = escape(e.target.name);
+    setClickedListID(e.target.name);
 
-    if (currListTitle !== '') {
-      axios.get('lists/' + currListTitle + '/items')
+    if (currListID !== '') {
+      axios.get('lists/' + currListID + '/items')
         .then((res) => {
-          setClickedList(res.data.title);
+          setClickedListTitle(res.data.title);
           if (res.data.items) {
             setListItems([...res.data.items]);
           }
@@ -35,8 +37,8 @@ function App() {
         <Row>
           <Col lg={6}  >
             <AllListsArea
-              clickedList={clickedList}
-              setClickedList={setClickedList}
+              clickedListTitle={clickedListTitle}
+              setClickedListTitle={setClickedListTitle}
               setListItems={setListItems}
               setEditItemUrl={setEditItemUrl}
               setItemTitle={setItemTitle}
@@ -45,13 +47,14 @@ function App() {
           </Col>
           <Col  lg={6} >
             <ListArea
-              clickedList={clickedList}
+              clickedListTitle={clickedListTitle}
               listItems={listItems}
               setListItems={setListItems}
               itemTitle={itemTitle}
               setItemTitle={setItemTitle}
               editItemUrl={editItemUrl}
               setEditItemUrl={setEditItemUrl}
+              clickedListID={clickedListID}
             />
           </Col>
         </Row>

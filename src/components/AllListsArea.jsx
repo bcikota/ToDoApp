@@ -12,6 +12,7 @@ function AllListsArea(props) {
   const [listTitle, setListTitle] = useState('');
 
   const [editListUrl, setEditListUrl] = useState('');
+  // axios.defaults.baseURL = 'http://localhost:8080/';
   axios.defaults.baseURL = 'https://shrouded-journey-60588.herokuapp.com/';
 
   useEffect(() => {
@@ -43,7 +44,7 @@ function AllListsArea(props) {
             return [...response.data];
           });
           setListTitle('');
-          props.setClickedList('');
+          props.setClickedListTitle('');
         });
     } else if (editListUrl !== '') {
       //edit list
@@ -60,7 +61,7 @@ function AllListsArea(props) {
           });
           setEditListUrl('');
           setListTitle('');
-          props.setClickedList('');
+          props.setClickedListTitle('');
         });
     }
   }
@@ -76,8 +77,8 @@ function AllListsArea(props) {
           return [...response.data];
         });
 
-        props.setClickedList('');
-        if (props.clickedList === 'default list') {
+        props.setClickedListTitle('');
+        if (props.clickedListTitle === 'default list') {
           props.setListItems([...response.data[0].items]);
         }
         setListTitle('');
@@ -90,11 +91,11 @@ function AllListsArea(props) {
 
   function handleEditList(e) {
     handleChange(e);
-    setEditListUrl(escape(e.target.value));
+    setEditListUrl(escape(e.target.name));
   }
 
   function handleDeleteList(e) {
-    let deleteUrl = escape(e.target.value);
+    let deleteUrl = escape(e.target.name);
     if (deleteUrl !== '') {
       axios.delete('lists/' + deleteUrl)
         .catch(function (error) {
@@ -104,9 +105,11 @@ function AllListsArea(props) {
           setLists(() => {
             return [...response.data];
           });
-          props.setClickedList('');
+          props.setClickedListTitle('');
           setListTitle('');
           setEditListUrl('');
+          props.setItemTitle('');
+          props.setEditItemUrl('');
         });
     }
   }
@@ -125,15 +128,15 @@ function AllListsArea(props) {
               <div>
                 <Row>
                   <Col >
-                    <button onClick={props.handleListClick} className="btn btn-outline-none" style={{textDecoration:'underline', fontSize:'1.1rem'}}>{list.title}</button>
+                    <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{textDecoration:'underline', fontSize:'1.1rem'}}>{list.title}</button>
                   </Col>
                   <Col>
                     {list.title !== 'default list' &&
-                      <button className="w-100 btn btn-outline-primary" value={list.title} onClick={handleEditList}>edit</button>}
+                      <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleEditList}>edit</button>}
                   </Col>
                   <Col>
                     {list.title !== 'default list' &&
-                      <button className="w-100 btn btn-outline-primary" value={list.title} onClick={handleDeleteList} >delete</button>}
+                      <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleDeleteList} >delete</button>}
                   </Col>
                 </Row>
               </div></ListGroup.Item>
