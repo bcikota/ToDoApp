@@ -92,14 +92,17 @@ function ListArea(props) {
 
 
         return <li className={index === 0 ? "border-top list-group-item" : "list-group-item"} key={index}>
+        <Row className="d-xl-none mb-3">
+        <span style={{ marginRight: '1rem', fontSize: '1.1rem' }}>{item.title}</span>
+        </Row>
           <Row>
-            <Col >
+            <Col className="d-none d-xl-block">
               <span style={{ marginRight: '1rem', fontSize: '1.1rem' }}>{item.title}</span>
             </Col>
-            <Col>
+            <Col style={{maxWidth:'10rem'}}>
               <button className="w-100 btn btn-outline-primary" name={item._id} value={item.title} onClick={handleEditItem}>edit</button>
             </Col>
-            <Col>
+            <Col style={{maxWidth:'10rem'}}>
               <button className="w-100 btn btn-outline-primary" name={item._id} value={item.title} onClick={handleDeleteItem} >delete</button>
             </Col>
           </Row>
@@ -112,13 +115,13 @@ function ListArea(props) {
           <input style={{ border: '1.5px solid lightGray', fontSize: '1.1rem' }} type="text" className="w-100 p-2" onChange={handleItemChange} value={props.itemTitle} placeholder="add new item" />
         </Col>
         <Col>
-          <button type="submit">+</button>
+        <button className=" btn btn-primary p-2 pl-3 pr-3" type="submit">ok</button>
         </Col>
       </Row>
 
 
     </form>
-    <button onClick={handleDeleteAllItems}> delete all items</button>
+    <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllItems}> delete all items</button>
   </div>
 }
 

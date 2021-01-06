@@ -32,10 +32,10 @@ function App() {
   return (
 
     <div className="App" >
-      <h1 className="pl-5 pt-2 pb-2 bg-primary text-light">TodoApp</h1>
-      <Container className="mt-5 " style={{maxWidth:'80rem'}} >
+      <h1 className="pl-3 pl-lg-5 pt-2 pb-2 bg-primary text-light">TodoApp</h1>
+      <Container className="mt-5" style={{maxWidth:'80rem'}} >
         <Row>
-          <Col lg={6}  >
+          <Col xl={6} style={{maxWidth:'40rem'}} >
             <AllListsArea
               clickedListTitle={clickedListTitle}
               setClickedListTitle={setClickedListTitle}
@@ -45,7 +45,7 @@ function App() {
               handleListClick={handleListClick}
             />
           </Col>
-          <Col  lg={6} >
+          <Col  xl={6} >
             <ListArea
               clickedListTitle={clickedListTitle}
               listItems={listItems}

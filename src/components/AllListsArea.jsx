@@ -7,6 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
 
+
 function AllListsArea(props) {
   const [lists, setLists] = useState([]);
   const [listTitle, setListTitle] = useState('');
@@ -116,7 +117,7 @@ function AllListsArea(props) {
 
   return <div className="mb-4">
     <Accordion defaultActiveKey="0">
-    <h2 className="d-inline-block mb-lg-4">All Lists</h2>
+      <h2 className="d-inline-block mb-lg-4 bg-white text-secondary p-2 pl-4 pr-4 rounded">All Lists</h2>
       <Accordion.Toggle as={Button} variant="link" eventKey="0" className="d-lg-none">
         show/hide
       </Accordion.Toggle>
@@ -125,41 +126,54 @@ function AllListsArea(props) {
 
           {lists.map((list, index) => {
             return <ListGroup.Item key={index}>
-              <div>
-                <Row>
-                  <Col >
-                    <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{textDecoration:'underline', fontSize:'1.1rem'}}>{list.title}</button>
-                  </Col>
-                  <Col>
-                    {list.title !== 'default list' &&
-                      <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleEditList}>edit</button>}
-                  </Col>
-                  <Col>
-                    {list.title !== 'default list' &&
-                      <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleDeleteList} >delete</button>}
-                  </Col>
-                </Row>
-              </div></ListGroup.Item>
+
+
+              <Row className="d-xl-none">
+                <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem', letterSpacing: '1px' }}>{list.title}</button>
+              </Row>
+              <Row>
+                <Col className="d-none d-xl-block">
+                  <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem', letterSpacing: '1px' }}>{list.title}</button>
+                </Col>
+                <Col style={{ maxWidth: '10rem' }}>
+                  {list.title !== 'Default list' &&
+                    <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleEditList}>edit</button>}
+                </Col>
+                <Col style={{ maxWidth: '10rem' }}>
+                  {list.title !== 'Default list' &&
+                    <button className="w-100 btn btn-outline-primary" name={list._id} value={list.title} onClick={handleDeleteList} >delete</button>}
+                </Col>
+              </Row>
+            </ListGroup.Item>
           })}
         </ListGroup>
       </Accordion.Collapse>
-      <Accordion.Collapse className="mb-3" eventKey="0">
+      <Accordion.Collapse className="mb-3 bg-white  p-3" eventKey="0">
         <form onSubmit={handleSubmit}>
-          <Row>
-            <Col xs={9}>
-            <input style={{border:'1.5px solid lightGray', fontSize:'1.1rem'}} className="w-100 mb-2 p-2" type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
+          <Row className="mb-2">
+            <Col  >
+              <input style={{ border: '1.5px solid lightBlue', fontSize: '1.1rem' }} className="w-100 mb-2 p-2" type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
             </Col>
-            <Col>
-            <button className=" btn btn-primary p-2 pl-3 pr-3" type="submit">ok</button>
+            <Col className="d-none d-xl-block" xl={2}>
+              <button className="btn btn-outline-primary w-100" type="submit">ok</button>
+            </Col>
+            <Col  className="d-none d-xl-block" xl={3}>
+              <button className="btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
             </Col>
           </Row>
-          
-          
+          <Row className="d-xl-none ">
+            <Col style={{ maxWidth: '10rem' }}>
+              <button className="w-100 btn btn-outline-primary" type="submit">ok</button>
+            </Col>
+            <Col style={{ maxWidth: '10rem' }} >
+              <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
+            </Col>
+          </Row>
+
+
         </form>
       </Accordion.Collapse>
-      <Accordion.Collapse eventKey="0">
-        <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
-      </Accordion.Collapse>
+
     </Accordion>
 
 
