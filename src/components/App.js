@@ -45,7 +45,7 @@ function App() {
               handleListClick={handleListClick}
             />
           </Col>
-          <Col  xl={6} >
+          <Col  xl={6} style={{maxWidth:'40rem'}}>
             <ListArea
               clickedListTitle={clickedListTitle}
               listItems={listItems}
@@ -60,6 +60,7 @@ function App() {
         </Row>
 
       </Container>
+      <footer className="mt-5 text-center p-4 p-xl-5 " style={{fontSize:'1.3rem', border:'3px solid lightBlue', color: 'gray'}}>Made by <a style={{ color: 'gray'}}  href="https://github.com/BogdanCikota">Bogdan Cikota</a></footer>
 
     </div>
 

@@ -57,6 +57,7 @@ function AllListsArea(props) {
           console.log(error);
         })
         .then((response) => {
+          console.log(response.data);
           setLists(() => {
             return [...response.data];
           });
@@ -118,7 +119,7 @@ function AllListsArea(props) {
   return <div className="mb-4">
     <Accordion defaultActiveKey="0">
       <h2 className="d-inline-block mb-lg-4 bg-white text-secondary p-2 pl-4 pr-4 rounded">All Lists</h2>
-      <Accordion.Toggle as={Button} variant="link" eventKey="0" className="d-lg-none text-dark">
+      <Accordion.Toggle as={Button} variant="link" eventKey="0" className="d-xl-none text-dark">
         show/hide
       </Accordion.Toggle>
       <Accordion.Collapse className="mb-3" eventKey="0">
@@ -128,12 +129,12 @@ function AllListsArea(props) {
             return <ListGroup.Item key={index}>
 
 
-              <Row className="d-xl-none">
-                <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem', letterSpacing: '1px' }}>{list.title}</button>
+              <Row className="d-xl-none " style={{marginBottom: list.title !== 'Default list' && '0.5rem'}}>
+                <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem'}}>{list.title}</button>
               </Row>
               <Row>
                 <Col className="d-none d-xl-block">
-                  <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem', letterSpacing: '1px' }}>{list.title}</button>
+                  <button onClick={props.handleListClick} name={list._id} className="btn btn-outline-none" style={{ textDecoration: 'underline', fontSize: '1.1rem'}}>{list.title}</button>
                 </Col>
                 <Col style={{ maxWidth: '10rem' }}>
                   {list.title !== 'Default list' &&
@@ -148,17 +149,17 @@ function AllListsArea(props) {
           })}
         </ListGroup>
       </Accordion.Collapse>
-      <Accordion.Collapse className="mb-3 bg-white p-3 rounded" eventKey="0">
+      <Accordion.Collapse className="mb-3 bg-white rounded"  style={{paddingRight: '1.3rem', padding:'1rem'}} eventKey="0">
         <form onSubmit={handleSubmit}>
           <Row className="mb-2">
             <Col  >
               <input style={{ border: '1.5px solid lightBlue', fontSize: '1.1rem' }} className="w-100 mb-2 p-2" type="text" onChange={handleChange} value={listTitle} placeholder="add new list" />
             </Col>
-            <Col className="d-none d-xl-block" xl={2}>
-              <button className="btn btn-outline-primary w-100" type="submit">ok</button>
+            <Col className="d-none d-xl-block" style={{maxWidth:'10rem'}}>
+              <button className="w-100 btn btn-outline-primary w-100" type="submit">ok</button>
             </Col>
-            <Col  className="d-none d-xl-block" xl={3}>
-              <button className="btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
+            <Col  className="d-none d-xl-block" style={{maxWidth:'10rem'}}>
+              <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all</button>
             </Col>
           </Row>
           <Row className="d-xl-none ">
@@ -166,7 +167,7 @@ function AllListsArea(props) {
               <button className="w-100 btn btn-outline-primary" type="submit">ok</button>
             </Col>
             <Col style={{ maxWidth: '10rem' }} >
-              <button className="w-100 btn btn-outline-primary" onClick={handleDeleteAllLists}> delete all lists</button>
+              <button className=" btn btn-outline-primary w-100" onClick={handleDeleteAllLists}> delete all</button>
             </Col>
           </Row>
 
