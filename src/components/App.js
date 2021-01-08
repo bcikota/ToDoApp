@@ -13,6 +13,8 @@ function App() {
   const [clickedListTitle, setClickedListTitle] = useState('');
   const [clickedListID, setClickedListID] = useState('');
   const [listItems, setListItems] = useState([]);
+  const [deleteAllItemsActive, setDeleteAllItemsActive] = useState(false);
+  const [inputActive, setInputActive] = useState(false);
 
   function handleListClick(e) {
     let currListID = escape(e.target.name);
@@ -32,7 +34,7 @@ function App() {
   return (
 
     <div className="App" >
-      <h1 className="pl-3 pl-lg-5 pt-2 pb-2 bg-primary text-light">TodoApp</h1>
+      <h1 className="pl-3 pl-lg-5 pt-2 pb-2 text-white">TodoApp</h1>
       <Container className="mt-5" style={{maxWidth:'80rem'}} >
         <Row>
           <Col xl={6} style={{maxWidth:'40rem'}} >
@@ -43,6 +45,10 @@ function App() {
               setEditItemUrl={setEditItemUrl}
               setItemTitle={setItemTitle}
               handleListClick={handleListClick}
+              deleteAllItemsActive={deleteAllItemsActive}
+              setDeleteAllItemsActive={setDeleteAllItemsActive}
+              inputActive={inputActive}
+              setInputActive={setInputActive}
             />
           </Col>
           <Col  xl={6} style={{maxWidth:'40rem'}}>
@@ -55,12 +61,16 @@ function App() {
               editItemUrl={editItemUrl}
               setEditItemUrl={setEditItemUrl}
               clickedListID={clickedListID}
+              deleteAllItemsActive={deleteAllItemsActive}
+              setDeleteAllItemsActive={setDeleteAllItemsActive}
+              inputActive={inputActive}
+              setInputActive={setInputActive}
             />
           </Col>
         </Row>
 
       </Container>
-      <footer className="mt-5 text-center p-4 p-xl-5 " style={{fontSize:'1.3rem', border:'3px solid lightBlue', color: 'gray'}}>Made by <a style={{ color: 'gray'}}  href="https://github.com/BogdanCikota">Bogdan Cikota</a></footer>
+      <footer className="mt-5 text-center p-4 p-xl-5 ">Made by <a href="https://github.com/BogdanCikota">Bogdan Cikota</a></footer>
 
     </div>
 
