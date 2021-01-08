@@ -1,8 +1,16 @@
+body {
+  background: #fff url('./background-image-blured.jpg') no-repeat fixed;
+  background-size: cover;
+}
+
 h1 {
   background-color: #9bd9f252;
 }
 
 footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
   background-color: #9bd9f252;
   font-size: 1.3rem;
   color: rgb(255, 255, 255);
@@ -36,4 +44,10 @@ h2,
 
 .title {
   color: #2e5d70 !important;
+}
+
+@media only screen and (max-height: 600px) {
+  footer {
+    position: relative;
+  }
 }
