@@ -2,11 +2,11 @@
 
 Site published at: https://bcikota.github.io/ToDoApp/
 
-- Backend (RESTful API): 
-    nodeJS (express)  deployed on heroku
-    mongoDB (mongoose)
-    API is made for personal use, for this project as demo of skill.
-
-- Frontend:
-    ReactJS
-    bootstrap
+- Backend (RESTful API): <br>
+    nodeJS (express)  deployed on heroku <br>
+    mongoDB (mongoose)<br>
+    API is made for personal use, for this project as demo of skill.<br>
+<br>
+- Frontend:<br>
+    ReactJS<br>
+    bootstrap<br>
