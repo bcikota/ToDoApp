@@ -68,9 +68,10 @@ function App() {
             />
           </Col>
         </Row>
+        <div class="push"></div>
 
       </Container>
-      <footer className="mt-5 text-center p-4 p-xl-5 ">Made by <a href="https://github.com/BogdanCikota">Bogdan Cikota</a></footer>
+      <footer className="text-center ">Made by <a href="https://github.com/BogdanCikota">Bogdan Cikota</a></footer>
 
     </div>
 

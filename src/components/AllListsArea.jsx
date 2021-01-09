@@ -125,7 +125,7 @@ function AllListsArea(props) {
   return <div className="mb-4">
     <Accordion defaultActiveKey="0">
       <h2 className="d-inline-block mb-lg-4  text-secondary p-2 pl-4 pr-4 rounded">All Lists</h2>
-      <Accordion.Toggle as={Button} variant="link" eventKey="0" className="d-xl-none text-dark">
+      <Accordion.Toggle as={Button} variant="link" eventKey="0" className="showHide d-xl-none">
         show/hide
       </Accordion.Toggle>
       <Accordion.Collapse className="mb-3" eventKey="0">
